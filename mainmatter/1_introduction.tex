@@ -1,0 +1,91 @@
+\chapter{General Introduction}\label{sec:intro}
+
+\section{Context}\label{sec:intro:context}
+
+\subsection{General Context}
+From the simplest robotic vacuum cleaner to the Perseverance rover on Mars, scene analysis is one of the most fundamental requirements in robotics. In the traditional robotic pipeline illustrated in \cref{fig:intro:robotic_pipeline}, perception constitutes the very first module, dedicated to sensing, analyzing, and understanding the world for navigating safely.
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    % Changing the font
+    \fontfamily{cmss}\selectfont
+
+    \node[align=center, label={below:Sensors}] (Sensors) {\includegraphics{mainmatter/figures/1_introduction/pipeline/camera.pdf}};
+    \node[draw, align=center, minimum height=1cm, right= of Sensors] (Perception) {Perception};
+    \node[draw, align=center, minimum height=1cm, right= of Perception] (Planning) {Planning};
+    \node[draw, align=center, minimum height=1cm, right= of Planning] (Control) {Control\vphantom{g}};
+    \node[align=center, label={below:Actuators}, right= of Control] (Actuators) {\includegraphics{mainmatter/figures/1_introduction/pipeline/gears.pdf}};
+
+    \path[->] (Sensors) edge[above] node[align=center] {} (Perception);
+    \path[->] (Perception) edge[right] node[align=center] {} (Planning);
+    \path[->] (Planning) edge[above] node[align=center] {} (Control);
+    \path[->] (Control) edge[above] node[align=center] {} (Actuators);
+  \end{tikzpicture}
+  \caption{The traditional robotic pipeline, from sensors to actuators.}\label{fig:intro:robotic_pipeline}
+\end{figure}
+
+In that sense, motion understanding is critical for perceiving how every element of the scene evolves. This motion understanding actually includes two components:
+\begin{enumerate*}[label=\textbf{(\arabic*)}]
+  \item the ego-motion, whose extraction is critical for asserting the ego-position in applications like visual odometry and SLAM, and
+  \item the motion of every other mobile object in the scene, which in most cases are potential obstacles, that should therefore be avoided; knowing their motion allows for the anticipation of their actions and future state, and therefore for the avoidance of future collisions by taking preventive actions.
+\end{enumerate*}
+
+However, for evolving in dynamic scenes, motion is of limited use without any knowledge of depth. Being able to determine that a given object is moving every second by a certain amount of pixels in a given direction is interesting information, but without a three-dimensional metric equivalence, taking adequate preventive actions is complex. A simple example of this phenomenon is shown in \cref{fig:intro:motion_depth}: while in the top row, both cubes appear to be moving at the same speed towards the center of the image, the 3D view in the bottom row actually shows that the green cube is actually positioned closer to the camera, and that it should therefore be given priority for the following ``planning'' and ``control'' modules of the pipeline.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.32\linewidth]{mainmatter/figures/1_introduction/depth/nomove_bottom_0001_checkerboard.png}
+  \includegraphics[width=0.32\linewidth]{mainmatter/figures/1_introduction/depth/nomove_bottom_0030_checkerboard.png}
+  \includegraphics[width=0.32\linewidth]{mainmatter/figures/1_introduction/depth/nomove_bottom_0060_checkerboard.png}
+  \includegraphics[width=0.32\linewidth]{mainmatter/figures/1_introduction/depth/nomove_top_0001_checkerboard.png}
+  \includegraphics[width=0.32\linewidth]{mainmatter/figures/1_introduction/depth/nomove_top_0030_checkerboard.png}
+  \includegraphics[width=0.32\linewidth]{mainmatter/figures/1_introduction/depth/nomove_top_0060_checkerboard.png}
+  \caption{Illustration of the importance of depth for scene analysis. Top row: two cubes moving towards the center of the image, with the same apparent velocity. Bottom row: the very same scene, this time viewed from a higher point of view; both cubes are in reality far from each other, with the green cube being closer, much smaller, floating above ground, and moving towards the center at a slower pace than the blue cube.}\label{fig:intro:motion_depth}
+\end{figure}
+
+In the context of this thesis, we are therefore interested in the estimation of both motion and depth. For that purpose, the event camera constitutes an interesting starting point, as it naturally encodes changes in the scene it observes, changes which are mostly caused by motion in dynamic scenes. Yet, while a single event camera might suffice for this estimation of motion, the addition of a second modality is a requirement for lifting any ambiguity related to the depth as shown in \cref{fig:intro:motion_depth}. Therefore, as part of this thesis, we will also consider the LiDAR sensor, for providing sparse but accurate measurements of the depth of the scene. By using both the event camera and the LiDAR, we aim to exploit and combine the unique capabilities of both sensors, and cancel out their weaknesses: in case of the event camera, a very-high-speed low-latency sensing of the scene, but with a vision of only textures and edges of objects with relative motion, and in the case of the LiDAR, very precise depth measurements, but at a low-rate and in a sparse way with few points at the edges of objects.
+
+\subsection{The Event Camera}\label{sec:intro:context:evtcam}
+Initially proposed in 1991 by Mahowald and Mead~\cite{Mahowald1991TheSR,Mahowald1992VLSIAO}, the event camera has since grown and is slowly becoming more recognized in the field of computer vision. Compared to a traditional camera which accumulates light during short periods of time to create images, event camera only detect instantaneous changes of light for each pixel asynchronously, and transmits them as spikes of information with a minimal latency. This novel sensing principle constitutes a fundamental change of paradigm, as it allows for very-high-frequency observations with a high dynamic range and a low-latency, and therefore opens new perception opportunities that were never thought of due to the limitations of more traditional cameras. This new paradigm, however, comes with a fundamental drawback: the need to rethink the whole bibliography, for adapting it to this novel sensor.
+
+As of today, event cameras have found their way in numerous and diverse domains. At the lowest, micrometer scale, event cameras have been applied for controlling micro-robots to manipulate cells~\cite{Gerena20206DoFOM}: the event camera gives the manipulator a finer control of the robot, and allows for a better measurement of interaction forces that can be fed back to the operator. Event cameras are also expected to make a breakthrough in the smartphone domain: their low energy consumption, their high dynamic range, and their high speed makes them perfect candidates for handheld photography and video recording. At the human scale, event cameras are mainly applied for industrial automation (fault detection~\cite{Li2023IntelligentMF}, fast object counting~\cite{Bialik2023FastOC}), autonomous driving~\cite{Chen2020EventBasedNV}, and more specific applications like the measurement of fluid flows~\cite{Willert2022EventbasedIV}. Finally, at the highest scale, event cameras are also used in the space domain, for either tracking stars from the ground~\cite{Chin2019StarTU}, or for detecting debris in Earth orbit thanks to an event camera launched in space in 2021~\cite{WSU2021WorldFT}.
+
+Due to their central position in this thesis, \cref{sec:evtcams} is dedicated to an in-depth explanation of the working principles and specificities of the event cameras.
+
+\subsection{Application to the Automotive Domain}
+One of the field of application of our methods that will be of special interest to us in this thesis is the automotive domain. As transportation remains at the heart of our daily lives, and despite progress on legislation, road safety, and vehicle standards, approximately 1.3 million people still die every year due to a road traffic crash~\cite{Who2018GlobalSR}. Intelligent road vehicles aim to reduce this number of crashes by reducing or completely eliminating the human factor.
+
+However, autonomous driving in open environments calls for deep understanding abilities from the intelligent vehicle to make it able to navigate safely. While recent progress has been made on that topic, most of the results from the literature were achieved in favorable conditions (adequate lighting and weather, clearly visible objects), which only represent a fraction of the real-life situations a driver is confronted with. Recent studies have particularly shown the limits of these approaches in more complex conditions (at dawn/dusk, when the object to detect is partially occluded or very close to the ego-vehicle, \dots), raising multiple safety questions~\cite{Brown2017TheTW,Combs2019AutomatedVA}.
+
+In that context, the use of a multimodal sensing system appears to be a critical component for proposing a safe autonomous navigation in all environmental conditions. As described in \cref{sec:intro:context:evtcam}, the event camera constitutes an interesting candidate for supplementing traditional RGB cameras, but even more so in the automotive context. Being able to output similarly-looking information in broad daylight and during night, and not being dazzled by sudden changes of lighting (such as at the entrance or exit of a tunnel), are both critical components for ensuring the operability of the perception module of the vehicle in a wider range of conditions. Their low-latency also constitutes an appealing argument in their favor, as being able to detect and identify obstacles more quickly gives the ``planning'' and ``control'' blocks of the robotic pipeline more time to adjust the trajectory of the vehicle accordingly. Our use of the LiDAR is also linked to this automotive context: while an RGB-D camera for instance would provide denser depth measurements, its use would be restricted to indoor situations. In comparison, a LiDAR can operate independently both indoor and outdoor and can sense the world with a long range, and constitutes therefore a common sensor used in intelligent vehicles.
+
+
+\section{Objectives and Overview of the Thesis}
+As noted in \cref{sec:intro:context}, the subject of this thesis is composed of a dual objective: the estimation of motion and the estimation of depth. For proposing answers to these issues, two specific problems are of particular interest to us:
+\begin{enumerate*}[label=\textbf{(\arabic*)}]
+  \item optical flow and
+  \item dense depth maps prediction.
+\end{enumerate*}
+
+Optical flow constitutes a widely explored subject in computer vision. While mostly solved for frame-based vision, it remains a challenging topic in event-based vision. When this thesis began in 2020, event-based optical flow accuracy was still limited, with learning-based methods only starting to become the state of the art. One limitation that interested us in particular was the lack of any real-time\footnote{Throughout this document, we will use the term ``real-time'' for any event-based method that verifies the two following criterions: \begin{enumerate*}[label=\textbf{(\arabic*)}]\item being able to process all incoming events from a live camera even under a high throughput without discarding any of them, and \item if events are accumulated over a time window \(\Delta t\), being able to process them in a time lower than \(\Delta t\).\end{enumerate*}} event-based optical flow method for high-resolution cameras. These cameras, like the Prophesee Gen4~\cite{Finateu2020510A1}, were slowly becoming available, but all the state-of-the-art optical flow methods we tested were painstakingly slow and were producing mostly inaccurate results due to the changes in resolution and camera specificities. Therefore, the first year of the thesis was spent on proposing a novel method for treating events, in order to be able to estimate an accurate event-based optical flow in real-time and with a low latency.
+
+As an alternative to 2D optical flow, 3D scene flow could have been treated for motion estimation instead. As a main advantage, scene flow would have solved the ambiguities a more simple 2D optical flow can present, as illustrated before in \cref{fig:intro:motion_depth}. But this approach would have already required more than a single event camera, and would have been a complex subject to undertake especially given the lack of event-based datasets on that subject.
+
+As for dense depth maps prediction, being able to obtain a dense view of the depth of all objects in a scene is precious when evolving in said scene. This problem has already been explored with frame-based and event-based cameras (either in a monocular or stereo manner), and with LiDARs (with a LiDAR alone or with frames acting as a densification guide). When our thesis work started on this depth estimation problem in mid-2021, only a single work~\cite{Li2021Enhancing3L} had explored the fusion of LiDAR point clouds and events, with several limitations (only sparse depths were estimated, limited to the vertical range of the LiDAR sensor, and evaluation was only conducted on a private dataset). The idea of estimating dense depth maps from LiDAR and event data had not been treated until that point, and presented a valuable research opportunity. Therefore, the second and third year of the thesis were spent on proposing two novel methods for fusing LiDAR and event data, in order to be able to estimate dense depth maps at a high rate and with a high accuracy.
+
+It should also be noted that, as part of this thesis, a collaboration between the Heudiasyc laboratory and Prophesee has been put in place, for deeper exchanges both on the theoretical and technical points of view.
+
+
+\section{Thesis Overview}
+This thesis is split in four main chapters, which cover the work conducted over the three years of this thesis.
+
+In \cref{sec:evtcams}, we begin by giving an overview of the event camera. Due to its central position in this thesis, and due to some concepts needing a formal introduction as they are fundamentally different from those of frame-based cameras, we give in this chapter a detailed description of its working principle, its advantages and its challenges, and offer a quick review of the state of the art, the camera models, and the datasets.
+
+In \cref{sec:ebof}, we describe our first work, on the ``motion'' aspect of the thesis, by proposing a fully event-based and model-based optical flow method. We describe a pipeline architecture, able in real-time and with a low latency to process events, transform them into a dense frame-based intermediate representation, and compute optical flow using a state-of-the-art frame-based method. We show in particular that our intermediate representation is critical for improving the accuracy of the optical flow results for both low-, mid-, and high-resolution event-based sensors, thanks to the use of a proposed negated exponential distance transform formulation.
+
+In \cref{sec:aled}, we describe our second work, this time on the ``depth'' aspect of the thesis. We investigate in this fourth chapter the fusion of high-rate events with low-rate LiDAR point clouds, in order to estimate high-rate dense depth maps of the observed scene. We propose here a convolutional-based neural network, the \acrfull{aled}, able to conduct this task with high accuracy. Compared to the event-based state of the art, we show that \acrshort{aled} is the best performing method, offering significant improvements, especially on complex automotive scenarios.
+
+In \cref{sec:delta}, we describe our extensions to this work on depth estimation. We investigate especially how attention-based networks can better represent the relations between the LiDAR- and event-based data, and how they can improve the results obtained with \acrshort{aled}. An in-depth analysis on fusing fully sparse LiDAR points and events for estimating sparse depths is first conducted, with theoretical and technical limitations of attention-based networks being highlighted. A dense attention-based network, \acrshort{delta}, is then proposed. We show that \acrshort{delta} further improves the results of \acrshort{aled}, especially for close ranges.
+
+Finally, in \cref{sec:conclusion}, we draw some general conclusions to this thesis, and discuss potential extensions to our work.

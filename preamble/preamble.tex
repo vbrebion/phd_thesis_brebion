@@ -1,0 +1,157 @@
+\ifpdf{}
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+\fi
+
+% Language
+\usepackage{csquotes}
+\usepackage[french,english]{babel}
+
+% Figures
+\usepackage{graphicx}
+
+% Subfigures
+\usepackage{caption}
+\usepackage{subcaption}
+
+% TiKZ / PgfPlots
+\PassOptionsToPackage{usenames,dvipsnames,svgnames}{xcolor}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usetikzlibrary{calc,decorations.pathreplacing,fit,positioning,shapes.geometric}
+
+% Equations
+\usepackage{mathtools}
+
+% Tables
+\usepackage{multirow}
+
+% Lists
+\usepackage[inline]{enumitem}
+
+% Links, without the awful boxes
+\usepackage[hidelinks]{hyperref}
+
+% Algorithms
+\usepackage[ruled,vlined]{algorithm2e}
+
+% Bibliography
+\usepackage[sorting=none]{biblatex}
+\addbibresource{backmatter/bibliography.bib}
+
+% Glossary
+\usepackage[toc,acronym]{glossaries}
+\makeglossaries{}
+\input{backmatter/glossary.gls}
+
+% Loading smart-thesis
+\input{smart-thesis/style.tex}
+
+% Renewing the smarttitle command to be able to have the commitee members
+% Note: this could probably be done in a cleaner way
+\renewcommand{\smarttitle}{
+{\begingroup
+\thispagestyle{empty}
+\makeatletter
+\raggedright
+\vfill
+{\LARGE \spacedallcaps{\@thesistype} \\}
+{\Large \spacedlowsmallcaps{\@discipline}\\}
+\vfill
+{\Huge \textcolor{smartred}{\spacedallcaps{\@title}}\\}
+\vfill
+{\LARGE \applytolist{\spacedallcaps}{\@author}\\}
+\vfill
+{\Large \applytolist{\itshape}{\@institution}}
+\vfill
+{\Large \spacedallcaps{Committee members}\\}
+\vspace{0.5cm}
+\resizebox{\linewidth}{!}{
+	\begin{tabular}{@{}lll@{}}
+		{\Large \spacedlowsmallcaps{Reviewers}} & Guillermo Gallego & TU Berlin \\
+		& Vincent Lepetit & École des Ponts ParisTech \\
+		{\Large \spacedlowsmallcaps{Examiners}} & Rémi Boutteau & Univ.\ de Rouen Normandie \\
+		& Véronique Cherfaoui & Univ.\ de Technologie de Compiègne \\
+		& Jean Martinet & Univ.\ Nice Sophia Antipolis \\
+		{\Large \spacedlowsmallcaps{Supervisors}} & Franck Davoine & CNRS \\
+		& Julien Moreau & Univ.\ de Technologie de Compiègne
+	\end{tabular}
+}
+\vfill
+\vfill
+{\Large \spacedlowsmallcaps{\@date} \hfill \spacedlowsmallcaps{\@internalid}}
+\vfill
+\makeatother
+\endgroup}}
+
+% Reducing the size of the captions
+\captionsetup{font=small}
+
+% Table of contents depth
+\setcounter{tocdepth}{1}
+
+% Better references
+\usepackage[capitalize]{cleveref}
+
+% Lowering the size of the margins
+\setlrmarginsandblock{3cm}{2.5cm}{*}
+\setulmarginsandblock{3cm}{3cm}{*}
+\checkandfixthelayout{}
+
+% Disabling the indentation of the paragraphs, and adding some spacing between them
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.5ex plus.5ex minus.5ex}
+
+% To avoid having a warning
+\microtypecontext{spacing=nonfrench}
+
+% "+/-" correctly displayed
+\newcommand{\rpm}{\raisebox{.2ex}{\(\scriptstyle\pm\)}}
+
+% Sign function (sgn())
+\DeclareMathOperator{\sign}{sgn}
+
+% Ceil/floor/round operator
+\DeclarePairedDelimiter{\ceil}\lceil\rceil
+\DeclarePairedDelimiter{\floor}\lfloor\rfloor
+\DeclarePairedDelimiter{\round}\lfloor\rceil
+
+% To be able to define a mathematical function on the go with \func
+\newcommand{\func}[1]{\operatorname{#1}}
+
+% "C++" correctly displayed
+\newcommand\CC{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-2}{\textbf{++}}}}
+
+% To be able to center a node between two others in TikZ
+% See https://tex.stackexchange.com/a/138828
+\tikzset{
+  between/.style args={#1 and #2}{
+    at = ($(#1)!0.5!(#2)$)
+  }
+}
+
+% To be able to add a (colored) frame to an image
+% See https://tex.stackexchange.com/a/241395
+\usepackage[export]{adjustbox}
+
+% To be able to have \verb in tabulars and figure captions
+% See https://tex.stackexchange.com/a/473611 and https://tex.stackexchange.com/a/8814
+\usepackage{fvextra}
+\usepackage{cprotect}
+
+% For including the ▪ symbol in various colors
+\newcommand{\smbluesquare}{%
+\setlength{\fboxsep}{0pt}%
+\setlength{\fboxrule}{0.25pt}%
+\fbox{\includegraphics{preamble/symbols/smbluesquare.pdf}}%
+}
+\newcommand{\smdarkbluesquare}{%
+\setlength{\fboxsep}{0pt}%
+\setlength{\fboxrule}{0.25pt}%
+\fbox{\includegraphics{preamble/symbols/smdarkbluesquare.pdf}}%
+}
+\newcommand{\smyellowsquare}{%
+\setlength{\fboxsep}{0pt}%
+\setlength{\fboxrule}{0.25pt}%
+\fbox{\includegraphics{preamble/symbols/smyellowsquare.pdf}}%
+}

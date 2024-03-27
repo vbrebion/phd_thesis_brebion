@@ -1,0 +1,50 @@
+\documentclass[a4paper,12pt]{memoir}
+
+\input{preamble/preamble}
+
+% All the metadata to be listed in \smarttitle and \smartcopyright
+\thesistype{PhD Thesis}
+\discipline{in Automation and Robotics}
+\title{Multimodal Estimation of Movement and Depth Based on Events for Scene Analysis}
+\author{Vincent Brebion}
+\institution{Université de technologie de Compiègne,Heudiasyc Lab\symbol{44} UMR CNRS 7253}
+\date{January 11, 2024}
+
+
+\begin{document}
+
+
+\frontmatter{}
+
+\input{frontmatter/title}
+\input{frontmatter/copyright}
+\input{frontmatter/epigraph}
+\input{frontmatter/abstract}
+\input{frontmatter/resume}
+\input{frontmatter/acknowledgements}
+\input{frontmatter/toc}
+
+
+\mainmatter{}
+
+\input{mainmatter/1_introduction}
+\input{mainmatter/2_event_cameras}
+\input{mainmatter/3_optical_flow}
+\input{mainmatter/4_depth_conv}
+\input{mainmatter/5_depth_transf}
+\input{mainmatter/6_conclusion}
+
+\appendix
+
+\input{mainmatter/a_addtional_exp}
+\input{mainmatter/b_depth_conv}
+\input{mainmatter/c_depth_transf}
+
+
+\backmatter{}
+
+\input{backmatter/glossary}
+\input{backmatter/bibliography}
+
+
+\end{document}

@@ -1,0 +1,16 @@
+\cleardoublepage{}
+\phantomsection{}
+\addcontentsline{toc}{chapter}{Abstract}
+\begin{abstract}
+  With their asynchrony and independence to illumination conditions, event cameras open new perception capabilities. They allow for the analysis of highly dynamic scenes with complex lighting, a situation in which traditional frame-based cameras show their limits. In the context of this thesis, two low-level perception tasks were examined in particular, as they constitute the foundation of many higher level tasks required for scene analysis:
+  \begin{enumerate*}[label=(\arabic*)]
+    \item optical flow and
+    \item depth estimation.
+  \end{enumerate*}
+
+  In the case of optical flow, an optimization-based approach was developed, allowing for the estimation of optical flow in real-time with a single high-resolution event camera. Short temporal windows of events are converted into frame-like representations, with denoising and with a novel negated exponential densification applied. A state-of-the-art low-latency frame-based optical flow method is then used to compute the final optical flow. This heuristic approach provides accurate results, and is still to this day the only event-based optical flow method working in real-time with high-resolution event cameras.
+
+  As for the depth estimation, a learning-based data-fusion method between a LiDAR and an event camera was proposed for estimating dense depth maps. For that purpose, a convolutional neural network was proposed, named \acrshort{aled}. It is composed of two separate asynchronous encoding branches for the LiDAR point clouds and for the events, central memory units where the asynchronous fusions are applied, and a final decoding branch. A novel notion of ``two depths per event'' was also proposed, with a theoretical analysis as to why this notion is fundamental given the change-based nature of events. A simulated dataset was finally proposed, containing high-resolution LiDAR and event data, as well as perfect depth maps used as ground truth. Compared to the state of the art, an error reduction of up to 61\% was achieved, demonstrating the quality of the network and the benefits brought by the use of our novel dataset.
+
+  An extension to this depth estimation work was also proposed, this time using an attention-based network for a better modeling of the spatial and temporal relations between the LiDAR and the event data. Initial experiments were conducted on a fully sparse network, able to directly output the two depths for each event without relying on a dense representation, but both theoretical and technical limitations were met. A subsequent rework of the method, this time on dense inputs and outputs, allowed us to overcome these limitations. The proposed network, \acrshort{delta}, is both recurrent and attention-based. It is composed of two encoding branches for the LiDAR point clouds and the events, a propagation mechanism for inferring LiDAR data at a higher rate, a central memory unit where the fusion between the two modalities is applied, and a final decoding branch. Compared to \acrshort{aled}, \acrshort{delta} is able to improve results across all metrics, and especially for short ranges (which are the most critical for robotic applications), where the average error is reduced up to four times.
+\end{abstract}

@@ -1,0 +1,38 @@
+\newglossaryentry{hot_pixel}{
+  name={hot pixel},
+  description={broken pixel in an event camera which constantly detects events}
+}
+\newglossaryentry{shot_noise}{
+  name={shot noise},
+  description={in optics, noise originating from the fluctuations of the number of photons detected by the sensor}
+}
+
+\newacronym{aae}{AAE}{Average Angular Error}
+\newacronym[shortplural=AEEs]{aee}{AEE}{Average Endpoint Error}
+\newacronym{aled}{ALED}{Asynchronous LiDAR and Events Depths densification network}
+\newacronym{ar}{AR}{Augmented Reality}
+\newacronym[shortplural=CPUs]{cpu}{CPU}{Central Processing Unit}
+\newacronym{delta}{DELTA}{Dense depths from Events and LiDAR using Transformer's Attention}
+\newacronym{ebof}{EBOF}{Event-Based Optical Flow}
+\newacronym{eos}{EOS}{End of Sentence}
+\newacronym{fpga}{FPGA}{Field-Programmable Gate Array}
+\newacronym{fps}{FPS}{Frames Per Second}
+\newacronym{fwl}{FWL}{Flow Warping Loss}
+\newacronym[shortplural=GPUs]{gpu}{GPU}{Graphics Processing Unit}
+\newacronym[shortplural=GNNs,longplural=Graph Neural Networks]{gnn}{GNN}{Graph Neural Network}
+\newacronym{gt}{GT}{Ground Truth}
+\newacronym{gru}{GRU}{Gated Recurrent Unit}
+\newacronym{hd}{HD}{High Definition}
+\newacronym{hdr}{HDR}{High Dynamic Range}
+\newacronym[shortplural=LSTMs]{lstm}{LSTM}{Long Short-Term Memory}
+\newacronym{meps}{MEPS}{Millions of Events Per Second}
+\newacronym{nlp}{NLP}{Natural Language Processing}
+\newacronym{nn}{NN}{Nearest Neighbor}
+\newacronym{ptp}{PTP}{Precision Time Protocol}
+\newacronym{rsu}{RSU}{Road Side Unit}
+\newacronym{rtef}{RTEF}{Real-Time Event-based Flow}
+\newacronym{slam}{SLAM}{Simultaneous Localization and Mapping}
+\newacronym{sled}{SLED}{Synthetic LiDAR Events Depths}
+\newacronym[shortplural=SNNs,longplural=Spiking Neural Networks]{snn}{SNN}{Spiking Neural Network}
+\newacronym{uav}{UAV}{Unmanned Aerial Vehicle}
+\newacronym{vr}{VR}{Virtual Reality}
